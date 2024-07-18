@@ -18,7 +18,6 @@ namespace SistemaEventos.Controllers
             int pageSize = 1;
             int pageNumber = (page ?? 1);
             var categoria = await contexto.Categorias.OrderBy(c => c.Nombre).ToPagedListAsync(pageNumber, pageSize);
-
             return View(categoria);
         }
 
