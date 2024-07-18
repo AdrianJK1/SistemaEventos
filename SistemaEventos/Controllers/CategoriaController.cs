@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SistemaEventos.Models;
 using X.PagedList;
 
@@ -12,7 +13,7 @@ namespace SistemaEventos.Controllers
         {
             this.contexto = contexto;
         }
-        // GET: CategoriaController
+        // accion que muestra la pagina principal
         public  async  Task<IActionResult> Index(int? page)
         {
             int pageSize = 1;
@@ -21,13 +22,14 @@ namespace SistemaEventos.Controllers
             return View(categoria);
         }
 
-        // GET: CategoriaController/Details/5
-        public ActionResult Details(int id)
+        // accion que muestra los datos 
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == c.Id);
+            return View(categoria);
         }
 
-        // GET: CategoriaController/Create
+        // muestra el formulario de crear
         public ActionResult Create()
         {
             return View();
@@ -36,58 +38,66 @@ namespace SistemaEventos.Controllers
         // POST: CategoriaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Categoria categoria)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                contexto.Categorias.Add(categoria);
+                await contexto.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            else
+                return View(categoria);
         }
 
         // GET: CategoriaController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == c.Id);
+            return View(categoria);
         }
 
         // POST: CategoriaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, Categoria categoria)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var temp = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == categoria.Id);
+                temp.Nombre = categoria.Nombre;
+                temp.DescripcionCategoria = categoria.DescripcionCategoria;
+
+                contexto.Categorias.Update(temp);
+                await contexto.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            else
+                return View(categoria);
         }
 
-        // GET: CategoriaController/Delete/5
-        public ActionResult Delete(int id)
+        // metodo que muestra el formulario para eliminar un registro
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == id);
+            return View(contexto);
         }
 
-        // POST: CategoriaController/Delete/5
+        // metodo que recibe los datos y los elimina
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task <IActionResult> Delete(int id, Categoria categoria)
         {
-            try
+            var temp = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == categoria.Id);
+
+            if (temp! == null)
             {
-                return RedirectToAction(nameof(Index));
+                contexto.Categorias.Remove(temp);
+                await contexto.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            else
+                return View(temp);
         }
     }
 }
