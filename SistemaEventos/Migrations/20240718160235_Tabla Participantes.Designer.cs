@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaEventos.Models;
 
@@ -11,9 +12,11 @@ using SistemaEventos.Models;
 namespace SistemaEventos.Migrations
 {
     [DbContext(typeof(ContextoDeDatos))]
-    partial class ContextoDeDatosModelSnapshot : ModelSnapshot
+    [Migration("20240718160235_Tabla Participantes")]
+    partial class TablaParticipantes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,29 +24,6 @@ namespace SistemaEventos.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("SistemaEventos.Models.Categoria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DescripcionCategoria")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categorias");
-                });
 
             modelBuilder.Entity("SistemaEventos.Models.Evento", b =>
                 {
@@ -107,61 +87,6 @@ namespace SistemaEventos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Participantes");
-                });
-
-            modelBuilder.Entity("SistemaEventos.Models.RegistroEvento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EventoID")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("FechaDelRegistro")
-                        .HasColumnType("date");
-
-                    b.Property<int>("ParticipanteID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventoID");
-
-                    b.HasIndex("ParticipanteID");
-
-                    b.ToTable("RegistroEvento");
-                });
-
-            modelBuilder.Entity("SistemaEventos.Models.RegistroEvento", b =>
-                {
-                    b.HasOne("SistemaEventos.Models.Evento", "Evento")
-                        .WithMany("RegistroEventos")
-                        .HasForeignKey("EventoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SistemaEventos.Models.Participante", "Participante")
-                        .WithMany("RegistroEventos")
-                        .HasForeignKey("ParticipanteID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Evento");
-
-                    b.Navigation("Participante");
-                });
-
-            modelBuilder.Entity("SistemaEventos.Models.Evento", b =>
-                {
-                    b.Navigation("RegistroEventos");
-                });
-
-            modelBuilder.Entity("SistemaEventos.Models.Participante", b =>
-                {
-                    b.Navigation("RegistroEventos");
                 });
 #pragma warning restore 612, 618
         }
