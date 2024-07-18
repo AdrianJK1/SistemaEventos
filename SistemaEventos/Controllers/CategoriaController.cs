@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SistemaEventos.Models;
 using X.PagedList;
 
@@ -7,21 +7,88 @@ namespace SistemaEventos.Controllers
 {
     public class CategoriaController : Controller
     {
-        private readonly ContextoDeDatos contextoDatos;
-
-        //esta es la inyeccion de contexo de datos
-        public CategoriaController(ContextoDeDatos contextoDatos)
+        private readonly ContextoDeDatos contexto;
+        public CategoriaController(ContextoDeDatos contexto)
         {
-            this.contextoDatos = contextoDatos;
+            this.contexto = contexto;
         }
-        public async Task<IActionResult> Index(int? page)
+        // GET: CategoriaController
+        public  async  Task<IActionResult> Index(int? page)
         {
-            int pageSize = 10; 
-            int pageNumber = (page ?? 1); 
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            var categoria = await contexto.Categorias.OrderBy(c => c.Nombre).ToPagedListAsync(pageNumber, pageSize);
 
-            var categorias = await contextoDatos.Categorias.OrderByDescending(c => c.Id).ToPagedListAsync(pageNumber, pageSize);
-            
-            return View(categorias);
+            return View(categoria);
+        }
+
+        // GET: CategoriaController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: CategoriaController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: CategoriaController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: CategoriaController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: CategoriaController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: CategoriaController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: CategoriaController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }
