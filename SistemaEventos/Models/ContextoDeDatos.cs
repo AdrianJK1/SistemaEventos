@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SistemaEventos.Models;
 
 namespace SistemaEventos.Models
 {
@@ -13,5 +14,7 @@ namespace SistemaEventos.Models
         public DbSet<Participante> Participantes { get; set;}
 
         public DbSet<Categoria> Categorias { get; set; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
