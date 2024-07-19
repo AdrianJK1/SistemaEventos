@@ -16,7 +16,7 @@ namespace SistemaEventos.Controllers
         // accion que muestra la pagina principal
         public  async  Task<IActionResult> Index(int? page)
         {
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             var categoria = await contexto.Categorias.OrderBy(c => c.Nombre).ToPagedListAsync(pageNumber, pageSize);
             return View(categoria);
@@ -25,7 +25,8 @@ namespace SistemaEventos.Controllers
         // accion que muestra los datos 
         public async Task<IActionResult> Details(int id)
         {
-            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == c.Id);
+            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == id);
+           
             return View(categoria);
         }
 
@@ -53,7 +54,7 @@ namespace SistemaEventos.Controllers
         // GET: CategoriaController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == c.Id);
+            var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == id);
             return View(categoria);
         }
 
@@ -80,7 +81,7 @@ namespace SistemaEventos.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var categoria = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == id);
-            return View(contexto);
+            return View(categoria);
         }
 
         // metodo que recibe los datos y los elimina
@@ -90,7 +91,7 @@ namespace SistemaEventos.Controllers
         {
             var temp = await contexto.Categorias.SingleOrDefaultAsync(c => c.Id == categoria.Id);
 
-            if (temp! == null)
+            if (temp != null)
             {
                 contexto.Categorias.Remove(temp);
                 await contexto.SaveChangesAsync();
@@ -99,5 +100,6 @@ namespace SistemaEventos.Controllers
             else
                 return View(temp);
         }
-    }
+
+}
 }

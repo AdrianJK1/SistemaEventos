@@ -17,7 +17,7 @@ namespace SistemaEventos.Controllers
         // GET: EventoController
         public  async Task<IActionResult> Index(int? page)
         {
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             var eventos = await contexto.Eventos.OrderBy(e => e.NombreEvento).ToPagedListAsync(pageNumber, pageSize);
             return View(eventos);
@@ -27,7 +27,7 @@ namespace SistemaEventos.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var eventos = await contexto.Eventos.SingleOrDefaultAsync(e => e.Id == id);
-            return View();
+            return View(eventos);
         }
 
         // GET: EventoController/Create
@@ -66,6 +66,7 @@ namespace SistemaEventos.Controllers
             if (ModelState.IsValid)
             {
                 var temp = await contexto.Eventos.SingleOrDefaultAsync(e => e.Id == evento.Id);
+                temp.NombreEvento = evento.NombreEvento;
                 temp.DescripcionDelEvento = evento.DescripcionDelEvento;
                 temp.FechaDelEvento = evento.FechaDelEvento;
                 temp.Ubicacion = evento.Ubicacion;
