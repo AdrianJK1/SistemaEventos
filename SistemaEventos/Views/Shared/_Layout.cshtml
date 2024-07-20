@@ -24,15 +24,22 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Evento" asp-action="IndexUsuario">Eventos</a>
+                            </li>
                             @if (User.IsInRole("Organizador"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Evento" asp-action="Index">Eventos</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="RegistroEvento" asp-action="Index">Ver registros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="Index">Categorias</a>
+                                </li>
                             }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="Index">Categorias</a>
-                            </li>
+                            
                             <li class="nav-item">
                                 <form asp-controller="Usuario" asp-action="Logout" method="post" class="form-inline">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Cerrar sesión</button>

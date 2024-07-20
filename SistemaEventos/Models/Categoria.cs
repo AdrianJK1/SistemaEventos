@@ -19,5 +19,7 @@ namespace SistemaEventos.Models
         [Display(Name = "Categoria ")]
 
         public string DescripcionCategoria { get; set; } = string.Empty;
+
+
     }
 }

@@ -16,5 +16,6 @@ namespace SistemaEventos.Models
         public DbSet<Categoria> Categorias { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<RegistroEvento> RegistroEventos { get; set; }
     }
 }

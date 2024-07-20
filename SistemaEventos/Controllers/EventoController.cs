@@ -22,6 +22,13 @@ namespace SistemaEventos.Controllers
             var eventos = await contexto.Eventos.OrderBy(e => e.NombreEvento).ToPagedListAsync(pageNumber, pageSize);
             return View(eventos);
         }
+        public async Task<IActionResult> IndexUsuario(int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            var eventos = await contexto.Eventos.OrderBy(e => e.NombreEvento).ToPagedListAsync(pageNumber, pageSize);
+            return View(eventos);
+        }
 
         // GET: EventoController/Details/5
         public async Task<IActionResult> Details(int id)

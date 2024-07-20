@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaEventos.Models
 {
@@ -29,6 +30,7 @@ namespace SistemaEventos.Models
 
         //propiedad de navegacion
         public List<RegistroEvento>? RegistroEventos { get; set; }
+   
 
     }
 }

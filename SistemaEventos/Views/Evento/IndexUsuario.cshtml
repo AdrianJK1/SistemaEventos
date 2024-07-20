@@ -4,25 +4,43 @@
 @model IPagedList<SistemaEventos.Models.Evento>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inscripcion de eventos";
 }
 
-<h1>Eventos</h1>
+<h1>Inscripcion de eventos</h1>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="success-message" class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
-<p>
-    <a asp-action="Create">Crear Evento</a>
-</p>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var message = document.getElementById('success-message');
+            if (message) {
+                setTimeout(function () {
+                    message.style.opacity = 0;
+                    setTimeout(function () {
+                        message.style.display = 'none';
+                    }, 600); 
+                }, 5000); 
+            }
+        });
+    </script>
+}
+
+
 <table class="table">
     <thead>
         <tr>
+            
             <th>
                 @Html.DisplayNameFor(model => model[0].NombreEvento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].DescripcionDelEvento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].FechaDelEvento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].Ubicacion)
@@ -33,6 +51,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.NombreEvento)
             </td>
@@ -40,15 +59,12 @@
                 @Html.DisplayFor(modelItem => item.DescripcionDelEvento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaDelEvento)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Ubicacion)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.ActionLink("Inscribirse", "Create", "Participante", null, new { @class = "btn btn-info" })
+
+                    
             </td>
         </tr>
 }
@@ -61,3 +77,5 @@
     PageClasses = new String[] { "page-link" }
 })
 </div>
+
+               <br />
